@@ -99,6 +99,7 @@ public class SharingClient {
       @Override
       public void onNext(EchoResponse response) {
         System.out.println("Received an echo: " + response.getMessage());
+        System.out.println(Thread.currentThread());
         valuesReceived.add(response.getMessage());
       }
 
@@ -127,9 +128,10 @@ public class SharingClient {
             System.out.println("Sending an echo request for: " + curValue);
             EchoRequest req = EchoRequest.newBuilder().setMessage(curValue).build();
             requestObserver.onNext(req);
+            System.out.println(Thread.currentThread());
 
             // Sleep for a bit before sending the next one.
-            Thread.sleep(random.nextInt(1000) + 500);
+            Thread.sleep(random.nextInt(10000) + 500);
           }
         } catch (RuntimeException e) {
           // Cancel RPC
